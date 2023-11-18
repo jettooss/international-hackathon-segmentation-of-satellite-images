@@ -1,0 +1,1 @@
+# international-hackathon-segmentation-of-satellite-images
