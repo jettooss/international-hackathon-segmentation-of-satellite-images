@@ -1,0 +1,18 @@
+.intro {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/images/satellite.png"), url("../../assets/images/space-background.png");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 70%, cover;
+  background-position: bottom right, center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 200px 50px 27px 50px;
+  margin: 0 auto;
+  max-width: 1398px;
+}

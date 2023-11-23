@@ -7,9 +7,6 @@
     "build": "react-scripts build"
   },
   "dependencies": {
-    "@2gis/mapgl": "^1.40.0",
-    "@2gis/mapgl-clusterer": "^2.5.0",
-    "@2gis/mapgl-directions": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",
