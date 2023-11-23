@@ -1,0 +1,53 @@
+.container {
+  padding: 0 16px;
+}
+
+.button {
+  position: absolute;
+  right: 16px;
+  bottom: 24px;
+  left: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 32px;
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  width: 320px;
+  background-color: var(--blue);
+}
+
+.desc {
+  font-family: "VTBGroupUI", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--white);
+}
+
+.button:hover {
+  background-color: transparent;
+  outline: none;
+}
+
+.button:hover .desc {
+  color: var(--blue);
+}
+
+.button:focus {
+  background-color: var(--blue);
+  outline: none;
+}
+
+.button:focus .desc {
+  color: var(--white);
+}
+
+.button:active {
+  background-color: transparent;
+  outline: none;
+}
+
+.button:active .desc {
+  color: var(--blue);
+}

@@ -1,0 +1,89 @@
+.container {
+  margin: 0 0 20px 0;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  padding: 24px 0;
+  margin: 0;
+  font-family: "VTBGroupUI", sans-serif;
+  font-size: 18px;
+  font-weight: 550;
+  line-height: 24px;
+  color: var(--lightGrey);
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.icon:hover {
+  border: 1px solid var(--blue);
+  outline: none;
+}
+
+.icon:focus {
+  border: 1px solid var(--blue);
+  outline: none;
+}
+
+.icon:active {
+  border: 1px solid var(--blue);
+  outline: none;
+}
+
+.descWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 52px;
+}
+
+.desc {
+  margin: 0;
+  font-family: "VTBGroupUI", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--lightGrey);
+}
+
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--blue);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.innerCircle {
+  border: 1px solid transparent;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: var(--black);
+}
+
+.circle:hover {
+  border: 1px solid var(--blue);
+}
+
+.circle:hover .innerCircle {
+  background-color: var(--darkGrey);
+}

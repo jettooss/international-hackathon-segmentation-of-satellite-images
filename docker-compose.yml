@@ -1,0 +1,26 @@
+version: '3.8'
+
+volumes:
+  static_volume:
+  media_volume:
+
+services:
+  backend:
+    build: backend
+    command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+    env_file:
+      - .env.docker
+
+  nginx:
+    build: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+    depends_on:
+      - backend

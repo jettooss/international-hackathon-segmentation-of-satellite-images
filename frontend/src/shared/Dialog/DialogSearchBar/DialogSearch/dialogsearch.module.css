@@ -1,0 +1,37 @@
+.form {
+  margin: 0 8px 0 0;
+  width: 100%;
+}
+
+.input {
+  padding: 9px 15px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  font-family: "VTBGroupUI", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--lightGrey);
+  background-color: var(--darkGrey);
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--grey);
+}
+
+.input:hover {
+  outline: 1px solid var(--blue);
+}
+
+.input:focus {
+  outline: 1px solid var(--blue);
+}
+
+.input:active {
+  outline: 1px solid var(--blue);
+}
