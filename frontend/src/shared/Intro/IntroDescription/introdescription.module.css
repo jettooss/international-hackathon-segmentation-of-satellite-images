@@ -1,0 +1,18 @@
+.title {
+  margin: 0 0 36px 0;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 90px;
+  font-weight: 600;
+  line-height: 115px;
+  color: var(--white);
+}
+
+.desc {
+  margin: 0;
+  max-width: 645px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 50px;
+  color: var(--white);
+}

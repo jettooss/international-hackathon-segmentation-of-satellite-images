@@ -1,0 +1,14 @@
+.header {
+  position: fixed;
+  width: 100%;
+  background-color: transparent;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 35px 50px 27px 50px;
+  margin: 0 auto;
+  max-width: 1398px;
+}
