@@ -8,11 +8,11 @@ services:
   backend:
     build: backend
     command: gunicorn backend.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
     volumes:
       - static_volume:/app/static/
       - media_volume:/app/media/
-    env_file:
-      - .env.docker
 
   nginx:
     build: nginx
