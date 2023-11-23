@@ -1,0 +1,10 @@
+.container {
+  padding: 0 0 24px 0;
+  overflow: hidden;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

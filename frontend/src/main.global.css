@@ -1,0 +1,46 @@
+@import url('https://online.vtb.ru/fonts/VTBGroupUI-SemiBold.woff2');
+@import url('https://online.vtb.ru/fonts/VTBGroupUI-Medium.woff2');
+@import url('https://online.vtb.ru/fonts/VTBGroupUI-Regular.woff2');
+
+:root {
+  --blue:            #4789eb;
+  --white:           #ffffff;
+  --lightGrey:       #e2e5e9;
+  --grey:            #8a96a8;
+  --darkGrey:        #2b313b;
+  --lightBlack:      #252a32;
+  --black:           #1a1e23;
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.active {
+  border: 1px solid var(--blue) !important;
+  background-color: var(--blue) !important;
+}

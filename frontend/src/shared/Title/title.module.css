@@ -1,0 +1,9 @@
+.title {
+  padding: 0 16px;
+  margin: 0 0 12px 0;
+  font-family: "VTBGroupUI", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--grey);
+}
