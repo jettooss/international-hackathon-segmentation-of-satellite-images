@@ -3,8 +3,8 @@
   height: 100vh;
   background-image: url("../../assets/images/satellite.png"), url("../../assets/images/space-background.png");
   background-repeat: no-repeat, no-repeat;
-  background-size: 70%, cover;
   background-position: bottom right, center;
+  transition: all 1s ease;
 }
 
 .container {
@@ -15,4 +15,5 @@
   padding: 200px 50px 27px 50px;
   margin: 0 auto;
   max-width: 1398px;
+  transition: all 1s ease;
 }
