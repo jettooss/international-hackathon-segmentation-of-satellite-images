@@ -8,9 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get purge --autoremove -y curl && \
     rm -rf /var/lib/apt/lists/*
 
-ENV CUDA_VERSION 12.1.0
+# Install CUDA Runtime
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-runtime-$CUDA_VERSION
+    cuda-runtime-12-1 || apt-get install -y --no-install-recommends cuda-runtime
 
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
