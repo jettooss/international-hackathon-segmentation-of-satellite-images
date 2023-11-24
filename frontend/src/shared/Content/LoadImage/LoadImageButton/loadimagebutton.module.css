@@ -1,3 +1,15 @@
+.loading {
+  width: 150px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+input[type="file"] {
+  display: none;
+}
+
 .button {
   display: flex;
   justify-content: center;
@@ -9,6 +21,7 @@
   height: 70px;
   background-color: var(--gray);
   transition: all .3s ease;
+  cursor: pointer;
 }
 
 .desc {
@@ -27,18 +40,18 @@
   color: var(--white);
 }
 
-.button:focus {
-  background-color: transparent;
-}
+/*.button:focus {*/
+/*  background-color: transparent;*/
+/*}*/
 
-.button:focus .desc {
-  color: var(--white);
-}
+/*.button:focus .desc {*/
+/*  color: var(--white);*/
+/*}*/
 
-.button:active {
-  background-color: transparent;
-}
+/*.button:active {*/
+/*  background-color: transparent;*/
+/*}*/
 
-.button:active .desc {
-  color: var(--white);
-}
+/*.button:active .desc {*/
+/*  color: var(--white);*/
+/*}*/
