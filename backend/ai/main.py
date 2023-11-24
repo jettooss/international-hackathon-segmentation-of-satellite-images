@@ -3,7 +3,7 @@ import torch
 import cv2
 import numpy as np
 from typing import Tuple
-
+from tqdm import tqdm
 
 def load_segmentation_model() -> Tuple[smp.UnetPlusPlus, torch.device]:
     model: smp.UnetPlusPlus = smp.UnetPlusPlus('resnet34', encoder_weights='imagenet', classes=2, activation='softmax')
@@ -27,8 +27,10 @@ def create_segmentation_mask(image: np.ndarray, patch_size: int, model: smp.Unet
     mask = np.zeros((image.shape[0], image.shape[1]), dtype=np.uint8)
 
     with torch.no_grad():
-        for i in range(0, image.shape[0] - patch_size + 1, stride_size):
-            for j in range(0, image.shape[1] - patch_size + 1, stride_size):
+        for i in tqdm(range(0, image.shape[0] - patch_size + 1, stride_size),
+                      desc="Processing rows", leave=False):
+            for j in tqdm(range(0, image.shape[1] - patch_size + 1, stride_size),
+                          desc="Processing columns", leave=False):
                 patch = image[i:i + patch_size, j:j + patch_size, :]
                 patch_normalized = patch.astype(np.float32) / 255.0
                 patch_tensor = torch.from_numpy(patch_normalized).permute(2, 0, 1).unsqueeze(0).to(device)
