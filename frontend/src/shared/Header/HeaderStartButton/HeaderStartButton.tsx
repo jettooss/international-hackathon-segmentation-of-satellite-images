@@ -16,7 +16,6 @@ export function HeaderStartButton() {
     <button
       className={styles.button}
       style={{
-        transform: startButtonClicked ? "translateX(200px)" : "translateY(0)",
         opacity: startButtonClicked ? "0" : "1",
         visibility: startButtonClicked ? "hidden" : "visible"
       }}
