@@ -3,6 +3,6 @@ import styles from './processedimagecontent.module.css';
 
 export function ProcessedImageContent() {
   return (
-    <div></div>
+    <div className={styles.container}></div>
   );
 }
