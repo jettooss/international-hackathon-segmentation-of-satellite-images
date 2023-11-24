@@ -12,5 +12,6 @@ WORKDIR /app
 COPY . /app
 
 # Install Python packages
+RUN pip install --upgrade setuptools pip
 RUN pip install --no-cache-dir -r requirements.txt
 
