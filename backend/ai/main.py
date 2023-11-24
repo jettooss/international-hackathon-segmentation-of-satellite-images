@@ -35,7 +35,7 @@ def process_patch(i, j, patch_size, image, model, device):
 
 
 def create_segmentation_mask(image: np.ndarray, patch_size: int, model: smp.UnetPlusPlus,
-                             device: torch.device) -> np.ndarray:
+                             device: torch.device, min_segment_size: int = 100) -> np.ndarray:
     stride_size = 128
     mask = np.zeros((image.shape[0], image.shape[1]), dtype=np.uint8)
 
@@ -43,16 +43,19 @@ def create_segmentation_mask(image: np.ndarray, patch_size: int, model: smp.Unet
         futures = []
         for i in range(0, image.shape[0] - patch_size + 1, stride_size):
             for j in range(0, image.shape[1] - patch_size + 1, stride_size):
-                # Create a partially applied function with the fixed arguments
                 process_func = partial(process_patch, i, j, patch_size, image, model, device)
                 futures.append(executor.submit(process_func))
 
         for future in tqdm(futures, total=len(futures), desc="Processing patches"):
             i, j, predicted_patch_mask = future.result()
             resized_mask = cv2.resize(predicted_patch_mask, (patch_size, patch_size))
-            mask[i:i + patch_size, j:j + patch_size] = resized_mask
+
+            # Фильтрация маленьких сегментов
+            if np.sum(resized_mask == 1) >= min_segment_size:
+                mask[i:i + patch_size, j:j + patch_size] = resized_mask
 
     return mask
+
 
 
 def create_colored_mask(mask: np.ndarray) -> np.ndarray:
