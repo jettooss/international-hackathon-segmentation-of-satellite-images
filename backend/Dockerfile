@@ -1,16 +1,6 @@
-FROM nvidia/cuda:11.4.0-base-ubuntu20.04
+FROM python:3.10-alpine
 
-# Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y \
-        git \
-        python3-pip \
-        python3-dev \
-        python3-opencv \
-        libglib2.0-0 \
 
 # Install required system libraries including OpenBLAS
 RUN apk update && apk add build-base libffi-dev python3-dev openblas-dev
@@ -23,4 +13,5 @@ COPY . /app
 
 # Install Python packages
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip3 install torch torchvision torchaudio -f https://download.pytorch.org/whl/cu111/torch_stable.html
+RUN pip install torch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cpu
+
