@@ -1,28 +1,15 @@
-FROM python:3.9
+FROM python:3.10-alpine
 
-# Install NVIDIA CUDA
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gnupg2 curl ca-certificates && \
-    curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub | apt-key add - && \
-    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /" > /etc/apt/sources.list.d/cuda.list && \
-    apt-get purge --autoremove -y curl && \
-    rm -rf /var/lib/apt/lists/*
+ENV PYTHONUNBUFFERED=1
 
-# Install CUDA Runtime
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    cuda-runtime-12-1 || apt-get install -y --no-install-recommends cuda-runtime
+# Install required system libraries including OpenBLAS
+RUN apk update && apk add build-base libffi-dev python3-dev openblas-dev
 
-# Clean up APT when done
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install CFFI
+RUN apk add py3-cffi
 
 WORKDIR /app
 COPY . /app
 
-# Upgrade pip and setuptools
-RUN pip install --upgrade pip setuptools
-
-# Install PyTorch
-RUN pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/cu111/torch_stable.html
-
-# Install Python packages from requirements.txt
+# Install Python packages
 RUN pip install --no-cache-dir -r requirements.txt
