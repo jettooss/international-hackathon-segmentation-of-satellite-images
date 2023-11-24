@@ -1,78 +1,95 @@
 import cv2
 import numpy as np
-import torch
-import segmentation_models_pytorch as smp
-from typing import Tuple
-from concurrent.futures import ThreadPoolExecutor
+import segmentation_models as sm
 from tqdm import tqdm
-from functools import partial
+from keras.models import load_model
 
 
-def load_segmentation_model() -> Tuple[smp.UnetPlusPlus, torch.device]:
-    model = smp.Unet('resnet34', encoder_weights='imagenet', classes=2, activation='softmax')
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model.to(device)
-    model_checkpoint_path = 'ai/model_checkpoint_epoch_10.pth'
-    checkpoint = torch.load(model_checkpoint_path, map_location=device)
-    model.load_state_dict(checkpoint['model_state_dict'])
-    model.eval()
-    return model, device
+def load_segmentation_model(model_path: str = 'ai/model_20.h5'):
+    """
+    Load the trained segmentation model.
+
+    :param model_path: Path to the trained model file.
+    :return: Loaded model.
+    """
+    try:
+        model = load_model(model_path)
+        return model
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        return None
 
 
-def generate_mask_from_model_output(model_output: torch.Tensor) -> np.ndarray:
-    predicted_mask = torch.argmax(model_output, dim=1).squeeze(0)
-    return predicted_mask.cpu().numpy()
+def prediction(model, img, patch_size):
+    """
+    Generate a segmentation mask for the input image using the model.
 
-
-def process_patch(i, j, patch_size, image, model, device):
-    patch = image[i:i + patch_size, j:j + patch_size, :]
-    patch_normalized = patch.astype(np.float32) / 255.0
-    patch_tensor = torch.from_numpy(patch_normalized).permute(2, 0, 1).unsqueeze(0).to(device)
-    with torch.no_grad():
-        model_output = model(patch_tensor)
-    predicted_patch_mask = generate_mask_from_model_output(model_output)
-    return i, j, cv2.resize(predicted_patch_mask, (patch_size, patch_size))
-
-
-def create_segmentation_mask(image: np.ndarray, patch_size: int, model: smp.UnetPlusPlus,
-                             device: torch.device) -> np.ndarray:
+    :param model: The loaded segmentation model.
+    :param img: Input image.
+    :param patch_size: Size of the patches to be used for prediction.
+    :return: Segmentation mask.
+    """
     stride_size = 128
-    mask = np.zeros((image.shape[0], image.shape[1]), dtype=np.uint8)
+    mask = np.zeros((img.shape[0], img.shape[1]), dtype=np.uint8)
+    BACKBONE = 'mobilenet'
+    preprocess_input = sm.get_preprocessing(BACKBONE)
 
-    with ThreadPoolExecutor() as executor:
-        futures = []
-        for i in range(0, image.shape[0] - patch_size + 1, stride_size):
-            for j in range(0, image.shape[1] - patch_size + 1, stride_size):
-                # Create a partially applied function with the fixed arguments
-                process_func = partial(process_patch, i, j, patch_size, image, model, device)
-                futures.append(executor.submit(process_func))
+    total_patches = ((img.shape[0] - patch_size) // stride_size + 1) * ((img.shape[1] - patch_size) // stride_size + 1)
+    progress_bar = tqdm(total=total_patches, desc="Processing patches")
 
-        for future in tqdm(futures, total=len(futures), desc="Processing patches"):
-            i, j, predicted_patch_mask = future.result()
-            resized_mask = cv2.resize(predicted_patch_mask, (patch_size, patch_size))
-            mask[i:i + patch_size, j:j + patch_size] = resized_mask
+    for i in range(0, img.shape[0] - patch_size + 1, stride_size):
+        for j in range(0, img.shape[1] - patch_size + 1, stride_size):
+            img_patch = img[i:i + patch_size, j:j + patch_size, :]
+            img_patch = preprocess_input(img_patch)
+            img_patch = np.expand_dims(img_patch, axis=0)
+            pred_mask = model.predict(img_patch)
+            pred_mask = np.argmax(pred_mask, axis=3)[0].astype('uint8')
+            pred_mask = cv2.resize(pred_mask, (patch_size, patch_size))
+            mask[i:i + patch_size, j:j + patch_size] = pred_mask
+            progress_bar.update(1)
 
+    progress_bar.close()
     return mask
 
 
-def create_colored_mask(mask: np.ndarray) -> np.ndarray:
-    color_mask = np.zeros((mask.shape[0], mask.shape[1], 3), dtype=np.uint8)
-    color_mask[mask == 1] = [148, 0, 211]  # Class 1: Purple
-    return color_mask
+def create_overlay_image(original_img, mask, alpha=0.5):
+    """
+    Overlay the segmentation mask on the original image.
 
+    :param original_img: The original image.
+    :param mask: The segmentation mask.
+    :param alpha: Transparency level for the mask overlay.
+    :return: Image with the mask overlay.
+    """
+    # Convert mask to a 3 channel image
+    colored_mask = np.zeros_like(original_img)
+    for i in range(3):  # Assuming original_img has 3 channels
+        colored_mask[:, :, i] = mask
 
-def overlay_mask_on_image(original_image: np.ndarray, mask: np.ndarray) -> np.ndarray:
-    alpha = 0.5  # Transparency factor for the mask
-    if len(mask.shape) == 2:
-        mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
-    overlayed_image = cv2.addWeighted(original_image, 1, mask, alpha, 0)
+    # Overlay the mask on the original image
+    overlayed_image = cv2.addWeighted(original_img, 1, colored_mask, alpha, 0)
     return overlayed_image
 
 
 def process_image_for_segmentation(file_path: str):
-    original_image = cv2.imread(file_path)
-    model, device = load_segmentation_model()
-    segmentation_mask = create_segmentation_mask(original_image, 256, model, device)
-    colored_mask = create_colored_mask(segmentation_mask)
-    overlayed_image = overlay_mask_on_image(original_image, colored_mask)
-    cv2.imwrite(file_path, overlayed_image)
+    """
+    Process the image for segmentation.
+
+    :param file_path: Path to the input image file.
+    :param model: Loaded segmentation model.
+    """
+    model = load_segmentation_model()
+    try:
+        original_img = cv2.imread(file_path)
+        if original_img is None:
+            raise ValueError("Error reading image file")
+
+        patch_size = 256
+        predicted_mask = prediction(model, original_img, patch_size)
+
+        # Assuming overlayed_image is generated from original_img and predicted_mask
+        overlayed_image = create_overlay_image(original_img, predicted_mask)
+        cv2.imwrite(file_path, overlayed_image)
+
+    except Exception as e:
+        print(f"Error processing image: {e}")
