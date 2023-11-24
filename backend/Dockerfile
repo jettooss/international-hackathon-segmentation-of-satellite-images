@@ -5,11 +5,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
-RUN apt-get update && \
-    apt-get install -y \
+RUN apk update && \
+    apk install -y \
         git \
         python3-pip \
-        python3-dev \
         python3-opencv \
         libglib2.0-0 \
 
