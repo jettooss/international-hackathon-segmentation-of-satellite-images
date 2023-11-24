@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './introdescription.module.css';
+import styles from './previewtext.module.css'
 
-export function IntroDescription() {
+export function PreviewText() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Space satellite AI</h1>

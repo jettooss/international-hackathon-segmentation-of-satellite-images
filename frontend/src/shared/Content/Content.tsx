@@ -1,10 +1,11 @@
 import React from 'react';
-import styles from './intro.module.css';
-import {IntroDescription} from "./IntroDescription";
+import styles from './content.module.css';
 import {useSelector} from "react-redux";
 import {IInitialState} from "../../store/reducer";
+import {Preview} from "./Preview";
+import {LoadImage} from "./LoadImage";
 
-export function Intro() {
+export function Content() {
   const startButtonClicked = useSelector<IInitialState, boolean>(state => state.startButtonClicked.startButtonClicked);
 
   return (
@@ -14,15 +15,8 @@ export function Intro() {
         backgroundSize: startButtonClicked ? "30%, cover" : "70%, cover",
       }}
     >
-      <div
-        className={styles.container}
-        style={{
-          opacity: startButtonClicked ? "0" : "1",
-          visibility: startButtonClicked ? "hidden" : "visible"
-        }}
-      >
-        <IntroDescription />
-      </div>
+      <Preview />
+      <LoadImage />
     </section>
   );
 }
