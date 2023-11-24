@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.desc {
+  display: flex;
+  margin: 0 0 0 16px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 29px;
+  color: var(--white);
+}

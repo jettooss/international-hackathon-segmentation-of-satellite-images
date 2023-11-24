@@ -40,18 +40,18 @@ input[type="file"] {
   color: var(--white);
 }
 
-/*.button:focus {*/
-/*  background-color: transparent;*/
-/*}*/
+.button:focus {
+  background-color: transparent;
+}
 
-/*.button:focus .desc {*/
-/*  color: var(--white);*/
-/*}*/
+.button:focus .desc {
+  color: var(--white);
+}
 
-/*.button:active {*/
-/*  background-color: transparent;*/
-/*}*/
+.button:active {
+  background-color: transparent;
+}
 
-/*.button:active .desc {*/
-/*  color: var(--white);*/
-/*}*/
+.button:active .desc {
+  color: var(--white);
+}

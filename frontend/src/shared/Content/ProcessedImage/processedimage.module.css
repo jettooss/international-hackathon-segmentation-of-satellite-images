@@ -1,0 +1,17 @@
+.container {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+  margin: auto;
+  border: 1px solid var(--gray);
+  border-radius: 52px;
+  max-width: 1398px;
+  height: 400px;
+  transform: translateY(-50%);
+  transition: all 1s ease;
+}

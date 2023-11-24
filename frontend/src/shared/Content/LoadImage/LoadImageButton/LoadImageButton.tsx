@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import styles from './loadimagebutton.module.css';
-import axios from "axios";
+import {useDispatch} from "react-redux";
 import Loading from '../../../../assets/images/moon.gif';
+import axios from "axios";
+import {setImageLoaded} from "../../../../store/imageLoaded/imageLoadedActions";
 
 export function LoadImageButton() {
   const [image, setImage] = useState<any>();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   function handleChange(e: any) {
     const file = e.target.files[0];
@@ -20,8 +23,8 @@ export function LoadImageButton() {
 
     axios.post("http://79.174.80.127/ai/", formData)
       .then((res) => {
-        console.log(res);
         setLoading(false);
+        dispatch(setImageLoaded(true));
       })
       .catch((err) => {
         console.log(err.toString());
