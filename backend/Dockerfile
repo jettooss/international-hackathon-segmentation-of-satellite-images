@@ -1,23 +1,19 @@
 FROM nvidia/cuda:12.1.0-runtime-ubi8
 
 # Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN yum update -y && yum install -y \
     git \
     python3-pip \
-    libglib2.0-0
+    glib2
 
-# If you need OpenCV, you can install it via pip (python3-opencv package might not be available)
+# Install OpenCV via pip if needed
 # RUN pip install opencv-python-headless
 
-# Install additional dependencies if needed
-# RUN apt-get install -y <other-packages>
-
-# Clean up APT when done
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# Clean up YUM when done
+RUN yum clean all
 
 WORKDIR /app
 COPY . /app
