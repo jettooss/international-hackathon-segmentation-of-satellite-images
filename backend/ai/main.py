@@ -1,12 +1,12 @@
 import cv2
 import numpy as np
 import os
+
+os.environ["SM_FRAMEWORK"] = "tf.keras"
 import concurrent.futures
 from tqdm import tqdm
 import segmentation_models as sm
-from tensorflow.keras.models import load_model
-
-os.environ["SM_FRAMEWORK"] = "tf.keras"
+from keras.models import load_model
 
 
 def prediction(model, img, patch_size):
@@ -60,6 +60,12 @@ def overlay_mask_on_image(original_image: np.ndarray, mask: np.ndarray) -> np.nd
     return overlayed_image
 
 
+def create_colored_mask(mask: np.ndarray) -> np.ndarray:
+    color_mask = np.zeros((mask.shape[0], mask.shape[1], 3), dtype=np.uint8)
+    color_mask[mask == 1] = [148, 0, 211]  # Class 1: Purple
+    return color_mask
+
+
 def process_image_for_segmentation(file_path: str):
     """
     Process the image for segmentation.
@@ -74,7 +80,8 @@ def process_image_for_segmentation(file_path: str):
 
         patch_size = 256
         predicted_mask = prediction(model, original_img, patch_size)
-        overlayed_image = overlay_mask_on_image(original_img, predicted_mask)
+        colored_mask = create_colored_mask(predicted_mask)
+        overlayed_image = overlay_mask_on_image(original_img, colored_mask)
         cv2.imwrite(file_path, overlayed_image)
 
     except Exception as e:
