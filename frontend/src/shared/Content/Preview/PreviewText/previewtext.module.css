@@ -1,7 +1,7 @@
 .title {
-  margin: 0 0 36px 0;
+  margin: 0 0 28px 0;
   font-family: "Segoe UI", sans-serif;
-  font-size: 90px;
+  font-size: 86px;
   font-weight: 600;
   line-height: 115px;
   color: var(--white);
@@ -11,8 +11,8 @@
   margin: 0;
   max-width: 645px;
   font-family: "Segoe UI", sans-serif;
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 400;
-  line-height: 50px;
+  line-height: 46px;
   color: var(--white);
 }

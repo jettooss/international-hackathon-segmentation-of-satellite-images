@@ -6,12 +6,15 @@ import {clientReducer, IClientState} from "./client/clientReducer";
 import {SET_CLIENT, SetClientAction} from "./client/clientActions";
 import {IRouteState, routeReducer} from "./route/routeReducer";
 import {SET_ROUTE, SetRouteAction} from "./route/routeActions";
+import {IStartButtonClickedState, startButtonClickedReducer} from "./startButtonClicked/startButtonClickedReducer";
+import {SET_START_BUTTON_CLICKED, SetStartButtonClickedAction} from "./startButtonClicked/startButtonClickedActions";
 
 export interface IInitialState {
   filtering: IFilteringState;
   search: ISearchState;
   client: IClientState;
   route: IRouteState;
+  startButtonClicked: IStartButtonClickedState;
 }
 
 export const initialState: IInitialState = {
@@ -26,10 +29,13 @@ export const initialState: IInitialState = {
   },
   route: {
     route: "пешеходный"
+  },
+  startButtonClicked: {
+    startButtonClicked: false
   }
 }
 
-type Actions = SetFilteringAction | SetSearchAction | SetClientAction | SetRouteAction
+type Actions = SetFilteringAction | SetSearchAction | SetClientAction | SetRouteAction | SetStartButtonClickedAction
 
 export const rootReducer = (state = initialState, action: Actions): IInitialState => {
   switch (action.type) {
@@ -52,6 +58,11 @@ export const rootReducer = (state = initialState, action: Actions): IInitialStat
       return {
         ...state,
         route: routeReducer(state.route, action)
+      }
+    case SET_START_BUTTON_CLICKED:
+      return {
+        ...state,
+        startButtonClicked: startButtonClickedReducer(state.startButtonClicked, action)
       }
     default:
       return state;
