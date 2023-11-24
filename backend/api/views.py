@@ -31,11 +31,10 @@ def process_image(request):
         return Response({"error": "No file was provided."}, status=status.HTTP_400_BAD_REQUEST)
 
     file_name = map_file.name
-    host = request.get_host()
-    file_path = f'http://{host}/media/{default_storage.save(file_name, ContentFile(map_file.read()))}'
+    file_path = f'media/{default_storage.save(file_name, ContentFile(map_file.read()))}'
 
     # Process the image file
     process_image_for_segmentation(file_path)
 
-    return Response({"message": "File uploaded successfully", "file_path": file_path}, status=status.HTTP_201_CREATED)
+    return Response({"message": "File uploaded successfully", "file_path": f'http://{request.get_host()}/{file_path}'}, status=status.HTTP_201_CREATED)
 
