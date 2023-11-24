@@ -48,6 +48,7 @@ COPY NGC-DL-CONTAINER-LICENSE /
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
+FROM nvidia/cuda:11.4.2-base-ubuntu20.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
