@@ -34,7 +34,6 @@ Pillow==10.0.1
 pretrainedmodels==0.7.4
 pyparsing==3.1.1
 python-dateutil==2.8.2
-python-dotenv==1.0.0
 pytz==2023.3.post1
 PyYAML==6.0.1
 requests==2.31.0
@@ -46,7 +45,7 @@ smp==0.0.1
 sqlparse==0.4.4
 sympy==1.12
 timm==0.9.2
-torch==2.1.1
+torch==2.1
 torchvision==0.16.1
 tqdm==4.66.1
 typing_extensions==4.8.0
