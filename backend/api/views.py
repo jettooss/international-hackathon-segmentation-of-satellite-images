@@ -36,5 +36,5 @@ def process_image(request):
     # Process the image file
     process_image_for_segmentation(file_path)
 
-    return Response({"message": "File uploaded successfully", "file_path": file_path}, status=status.HTTP_201_CREATED)
+    return Response({"message": "File uploaded successfully", "file_path": f'http://{request.get_host()}/{file_path}'}, status=status.HTTP_201_CREATED)
 

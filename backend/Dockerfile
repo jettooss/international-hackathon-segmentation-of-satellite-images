@@ -13,5 +13,3 @@ COPY . /app
 
 # Install Python packages
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install torch==1.12.0 torchvision==0.1.6 --extra-index-url https://download.pytorch.org/whl/cpu
-
