@@ -12,8 +12,5 @@ WORKDIR /app
 COPY . /app
 
 # Install Python packages
-RUN pip install --upgrade pip setuptools wheel
-RUN pip install opencv-python==4.8.1.78
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install torch==1.12.1 torchvision==0.13.1 --extra-index-url https://download.pytorch.org/whl/cpu
 
