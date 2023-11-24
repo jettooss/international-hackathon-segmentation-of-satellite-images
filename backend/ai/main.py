@@ -1,8 +1,11 @@
 import cv2
 import numpy as np
-import segmentation_models as sm
+import os
+
+os.environ["SM_FRAMEWORK"] = "tf.keras"
 from tqdm import tqdm
-from keras.models import load_model
+import segmentation_models as sm
+from tensorflow.keras.models import load_model
 
 
 def load_segmentation_model(model_path: str = 'ai/model_20.h5'):
@@ -12,12 +15,8 @@ def load_segmentation_model(model_path: str = 'ai/model_20.h5'):
     :param model_path: Path to the trained model file.
     :return: Loaded model.
     """
-    try:
-        model = load_model(model_path)
-        return model
-    except Exception as e:
-        print(f"Error loading model: {e}")
-        return None
+    model = load_model(model_path)
+    return model
 
 
 def prediction(model, img, patch_size):
@@ -32,8 +31,8 @@ def prediction(model, img, patch_size):
     stride_size = 128
     mask = np.zeros((img.shape[0], img.shape[1]), dtype=np.uint8)
     BACKBONE = 'mobilenet'
-    preprocess_input = sm.get_preprocessing(BACKBONE)
 
+    preprocess_input = sm.get_preprocessing(BACKBONE)
     total_patches = ((img.shape[0] - patch_size) // stride_size + 1) * ((img.shape[1] - patch_size) // stride_size + 1)
     progress_bar = tqdm(total=total_patches, desc="Processing patches")
 
