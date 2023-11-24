@@ -8,17 +8,6 @@ import segmentation_models as sm
 from tensorflow.keras.models import load_model
 
 
-def load_segmentation_model(model_path: str = 'ai/model_20.h5'):
-    """
-    Load the trained segmentation model.
-
-    :param model_path: Path to the trained model file.
-    :return: Loaded model.
-    """
-    model = load_model(model_path)
-    return model
-
-
 def prediction(model, img, patch_size):
     """
     Generate a segmentation mask for the input image using the model.
@@ -77,7 +66,7 @@ def process_image_for_segmentation(file_path: str):
     :param file_path: Path to the input image file.
     :param model: Loaded segmentation model.
     """
-    model = load_segmentation_model()
+    model = load_model('ai/model_20.h5', compile=False)
     try:
         original_img = cv2.imread(file_path)
         if original_img is None:
