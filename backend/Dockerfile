@@ -5,12 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
-RUN apk update && \
-    apk install -y \
-        git \
-        python3-pip \
-        python3-opencv \
-        libglib2.0-0 \
+RUN apk update && apk install git python3-pip python3-opencv libglib2.0-0
 
 
 # Install required system libraries including OpenBLAS
