@@ -12,7 +12,7 @@ def load_segmentation_model() -> Tuple[smp.UnetPlusPlus, torch.device]:
     model = smp.UnetPlusPlus('resnet34', encoder_weights='imagenet', classes=2, activation='softmax')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.to(device)
-    model_checkpoint_path = 'ai/model_checkpoint_epoch_5.pth'
+    model_checkpoint_path = 'ai/model_checkpoint_epoch_15.pth'
     checkpoint = torch.load(model_checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint['model_state_dict'])
     model.eval()
