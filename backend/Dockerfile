@@ -1,24 +1,32 @@
-FROM nvidia/cuda:12.1.0-runtime-ubi8
+FROM nvidia/cuda:11.4.2-base-ubuntu20.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
-RUN apk update && apk install git python3-pip python3-opencv libglib2.0-0
+RUN apt-get update && apt-get install -y \
+    git \
+    python3-pip \
+    libglib2.0-0
 
+# If you need OpenCV, you can install it via pip (python3-opencv package might not be available)
+# RUN pip install opencv-python-headless
 
-# Install required system libraries including OpenBLAS
-RUN apk update && apk add build-base libffi-dev python3-dev openblas-dev
+# Install additional dependencies if needed
+# RUN apt-get install -y <other-packages>
 
-# Install CFFI
-RUN apk add py3-cffi
+# Clean up APT when done
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY . /app
 
-# Install Python packages
-RUN pip install --upgrade setuptools pip
-RUN pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/cu111/torch_stable.html
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip and setuptools
+RUN pip install --upgrade pip setuptools
 
+# Install PyTorch
+RUN pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/cu111/torch_stable.html
+
+# Install Python packages from requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
