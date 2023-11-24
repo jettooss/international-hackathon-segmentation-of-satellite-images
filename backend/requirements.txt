@@ -14,7 +14,6 @@ django-rest-swagger==2.2.0
 djangorestframework==3.14.0
 drf-yasg==1.21.7
 efficientnet==1.0.0
-efficientnet-pytorch==0.7.1
 filelock==3.13.1
 flatbuffers==23.5.26
 fonttools==4.45.1
