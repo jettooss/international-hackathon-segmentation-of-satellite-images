@@ -1,6 +1,20 @@
 .container {
+  padding: 15px;
   border: 1px solid var(--white);
   border-radius: 20px;
   width: 30%;
   height: 100%;
+}
+
+.switcher {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.switcherDesc {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--white);
 }

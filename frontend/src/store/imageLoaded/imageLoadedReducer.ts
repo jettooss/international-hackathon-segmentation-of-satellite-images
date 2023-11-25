@@ -12,7 +12,7 @@ export const imageLoadedReducer = (state = initialState.imageLoaded, action: Ima
     case SET_IMAGE_LOADED:
       return {
         ...state,
-        imageLoaded: action.setImageLoaded
+        imageLoaded: action.imageLoaded
       }
     default:
       return state;

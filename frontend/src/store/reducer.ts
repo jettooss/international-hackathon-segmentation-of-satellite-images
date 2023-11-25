@@ -6,12 +6,15 @@ import {IProcessedImageState, processedImageReducer} from "./processedImage/proc
 import {SET_PROCESSED_IMAGE, SetProcessedImageAction} from "./processedImage/processedImageActions";
 import {IUploadedImageState, uploadedImageReducer} from "./uploadedImage/uploadedImagesReducer";
 import {SET_UPLOADED_IMAGE, SetUploadedImageAction} from "./uploadedImage/uploadedImageActions";
+import {ISwitcherState, switcherReducer} from "./switcher/switcherReducer";
+import {SET_SWITCHER, SetSwitcherAction} from "./switcher/switcherActions";
 
 export interface IInitialState {
   startButtonClicked: IStartButtonClickedState;
   imageLoaded: IImageLoadedState;
   processedImage: IProcessedImageState;
   uploadedImage: IUploadedImageState;
+  switcher: ISwitcherState;
 }
 
 export const initialState: IInitialState = {
@@ -26,10 +29,17 @@ export const initialState: IInitialState = {
   },
   uploadedImage: {
     uploadedImage: ""
+  },
+  switcher: {
+    switcher: false
   }
 }
 
-type Actions = SetStartButtonClickedAction | SetImageLoadedAction | SetProcessedImageAction | SetUploadedImageAction
+type Actions = SetStartButtonClickedAction
+  | SetImageLoadedAction
+  | SetProcessedImageAction
+  | SetUploadedImageAction
+  | SetSwitcherAction
 
 export const rootReducer = (state = initialState, action: Actions): IInitialState => {
   switch (action.type) {
@@ -52,6 +62,11 @@ export const rootReducer = (state = initialState, action: Actions): IInitialStat
       return {
         ...state,
         uploadedImage: uploadedImageReducer(state.uploadedImage, action)
+      }
+    case SET_SWITCHER:
+      return {
+        ...state,
+        switcher: switcherReducer(state.switcher, action)
       }
     default:
       return state;
