@@ -2,10 +2,16 @@ import {IStartButtonClickedState, startButtonClickedReducer} from "./startButton
 import {SET_START_BUTTON_CLICKED, SetStartButtonClickedAction} from "./startButtonClicked/startButtonClickedActions";
 import {IImageLoadedState, imageLoadedReducer} from "./imageLoaded/imageLoadedReducer";
 import {SET_IMAGE_LOADED, SetImageLoadedAction} from "./imageLoaded/imageLoadedActions";
+import {IProcessedImageState, processedImageReducer} from "./processedImage/processedImageReducer";
+import {SET_PROCESSED_IMAGE, SetProcessedImageAction} from "./processedImage/processedImageActions";
+import {IUploadedImageState, uploadedImageReducer} from "./uploadedImage/uploadedImagesReducer";
+import {SET_UPLOADED_IMAGE, SetUploadedImageAction} from "./uploadedImage/uploadedImageActions";
 
 export interface IInitialState {
   startButtonClicked: IStartButtonClickedState;
   imageLoaded: IImageLoadedState;
+  processedImage: IProcessedImageState;
+  uploadedImage: IUploadedImageState;
 }
 
 export const initialState: IInitialState = {
@@ -14,10 +20,16 @@ export const initialState: IInitialState = {
   },
   imageLoaded: {
     imageLoaded: false
+  },
+  processedImage: {
+    processedImage: ""
+  },
+  uploadedImage: {
+    uploadedImage: ""
   }
 }
 
-type Actions = SetStartButtonClickedAction | SetImageLoadedAction
+type Actions = SetStartButtonClickedAction | SetImageLoadedAction | SetProcessedImageAction | SetUploadedImageAction
 
 export const rootReducer = (state = initialState, action: Actions): IInitialState => {
   switch (action.type) {
@@ -30,6 +42,16 @@ export const rootReducer = (state = initialState, action: Actions): IInitialStat
       return {
         ...state,
         imageLoaded: imageLoadedReducer(state.imageLoaded, action)
+      }
+    case SET_PROCESSED_IMAGE:
+      return {
+        ...state,
+        processedImage: processedImageReducer(state.processedImage, action)
+      }
+    case SET_UPLOADED_IMAGE:
+      return {
+        ...state,
+        uploadedImage: uploadedImageReducer(state.uploadedImage, action)
       }
     default:
       return state;

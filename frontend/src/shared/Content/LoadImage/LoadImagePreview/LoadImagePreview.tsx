@@ -18,7 +18,7 @@ export function LoadImagePreview({ previewImage }: ILoadImagePreview) {
         visibility: imageLoaded ? "hidden" : "visible"
       }}
     >
-      <img className={styles.image} src={previewImage} alt="Preview Image" />
+      <img className={previewImage} src={previewImage} alt="Preview Image" />
     </div>
   );
 }
