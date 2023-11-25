@@ -1,0 +1,57 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid var(--white);
+  border-radius: 20px;
+  width: 30%;
+  height: 100%;
+}
+
+.analytics {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.data {
+  display: flex;
+  align-items: center;
+}
+
+.data:not(:last-child) {
+  margin: 0 0 10px 0;
+}
+
+.secondaryDesc {
+  display: flex;
+  width: 140px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 23px;
+  color: #c5c5c5;
+}
+
+.colorfulCircle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 14px;
+}
+
+.mainDesc {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 23px;
+  color: #ffffff;
+}
+
+.switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 0 0 0;
+}

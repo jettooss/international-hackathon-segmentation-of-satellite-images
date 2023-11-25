@@ -1,6 +1,6 @@
 import React from 'react';
 import './main.global.css';
-import {IInitialState, rootReducer} from "./store/reducer";
+import {rootReducer} from "./store/reducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {applyMiddleware, createStore} from "redux";
 import thunk from "redux-thunk";
@@ -13,8 +13,6 @@ const store = createStore(rootReducer, composeWithDevTools(
 ));
 
 function AppComponent() {
-  const startButtonClicked = useSelector<IInitialState, boolean>(state => state.startButtonClicked.startButtonClicked);
-
   return (
     <div className="container">
       <Header />
