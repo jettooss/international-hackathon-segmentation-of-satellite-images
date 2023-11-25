@@ -66,6 +66,26 @@ def create_colored_mask(mask: np.ndarray) -> np.ndarray:
     return color_mask
 
 
+def count_purple_polygons(mask: np.ndarray, min_size: int = 0) -> int:
+    """
+    Count the number of purple polygons in the mask.
+    A polygon is defined as a contiguous region of purple pixels.
+
+    :param mask: The colored mask where purple polygons are to be counted.
+    :param min_size: The minimum size of the polygon to be counted, in pixels.
+    :return: The number of polygons that meet the size criteria.
+    """
+    # Assuming purple is the only color in the mask and is denoted by non-zero values
+    # Convert the mask to grayscale for connected component analysis
+    gray_mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+    _, labels, stats, _ = cv2.connectedComponentsWithStats(gray_mask, connectivity=8, ltype=cv2.CV_32S)
+
+    # Count the number of labels with a pixel area greater than or equal to min_size
+    num_polygons = np.sum(stats[1:, cv2.CC_STAT_AREA] >= min_size)
+
+    return num_polygons
+
+
 def process_image_for_segmentation(file_path: str):
     """
     Process the image for segmentation.
@@ -79,10 +99,15 @@ def process_image_for_segmentation(file_path: str):
             raise ValueError("Error reading image file")
 
         patch_size = 256
+        min_polygon_size = 100
         predicted_mask = prediction(model, original_img, patch_size)
         colored_mask = create_colored_mask(predicted_mask)
         overlayed_image = overlay_mask_on_image(original_img, colored_mask)
         cv2.imwrite(file_path, overlayed_image)
 
+        all_polygons_count = count_purple_polygons(colored_mask)
+        large_polygons_count = count_purple_polygons(colored_mask, min_size=min_polygon_size)
+
+        return [all_polygons_count, large_polygons_count]
     except Exception as e:
         print(f"Error processing image: {e}")

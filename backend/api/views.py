@@ -11,6 +11,7 @@ from drf_yasg import openapi
 
 from ai import process_image_for_segmentation
 
+
 @swagger_auto_schema(
     method='post',
     manual_parameters=[openapi.Parameter(name="map", in_=openapi.IN_FORM, type=openapi.TYPE_FILE, required=True,
@@ -33,8 +34,9 @@ def process_image(request):
     file_name = map_file.name
     file_path = f'media/{default_storage.save(file_name, ContentFile(map_file.read()))}'
 
-    # Process the image file
-    process_image_for_segmentation(file_path)
+    data = process_image_for_segmentation(file_path)
 
-    return Response({"message": "File uploaded successfully", "file_path": f'http://{request.get_host()}/{file_path}'}, status=status.HTTP_201_CREATED)
-
+    return Response({"message": "File uploaded successfully", "file_path": f'http://{request.get_host()}/{file_path}',
+                     "all_polygons_count": data[0],
+                     "large_polygons_count": data[1]
+                     }, status=status.HTTP_201_CREATED)
