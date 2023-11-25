@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './processedimageview.module.css';
-import {useSelector} from "react-redux";
 import {IInitialState} from "../../../../../store/reducer";
+import {useSelector} from "react-redux";
 
 export function ProcessedImageView() {
   const uploadedImage = useSelector<IInitialState, string>(state => state.uploadedImage.uploadedImage);
