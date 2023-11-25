@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styles from './loadimagebutton.module.css';
+import {IInitialState} from "../../../../store/reducer";
+import {setProcessedImage} from "../../../../store/processedImage/processedImageActions";
+import {setUploadedImage} from "../../../../store/uploadedImage/uploadedImageActions";
+import {setAllBuildings} from "../../../../store/allBuildings/allBuildingsActions";
+import {setLargeBuildings} from "../../../../store/largeBuildings/largeBuildingsActions";
+import {setSmallBuildings} from "../../../../store/smallBuildings/smallBuildingsActions";
 import {setImageLoaded} from "../../../../store/imageLoaded/imageLoadedActions";
 import {useDispatch, useSelector} from "react-redux";
 import Loading from '../../../../assets/images/moon.gif';
 import {LoadImagePreview} from "../LoadImagePreview";
 import axios from "axios";
-import {setProcessedImage} from "../../../../store/processedImage/processedImageActions";
-import {IInitialState} from "../../../../store/reducer";
-import {setUploadedImage} from "../../../../store/uploadedImage/uploadedImageActions";
 
 export function LoadImageButton() {
   const uploadedImage = useSelector<IInitialState, any>(state => state.uploadedImage.uploadedImage);
@@ -35,17 +38,20 @@ export function LoadImageButton() {
     axios.post("http://79.174.80.127/ai/", formData)
       .then((res) => {
         const data = res.data.file_path;
+        const allBuildings = res.data.all_polygons_count;
+        const largeBuildings = res.data.large_polygons_count
 
         setLoading(false);
         dispatch(setImageLoaded(true));
         dispatch(setProcessedImage(data));
+        dispatch(setAllBuildings(allBuildings));
+        dispatch(setLargeBuildings(largeBuildings));
+        dispatch(setSmallBuildings(allBuildings - largeBuildings));
       })
       .catch((err) => {
         console.log(err.toString());
       })
   }
-
-  useEffect(() => {}, [uploadedImage]);
 
   return (
     <>

@@ -10,7 +10,7 @@ export function ProcessedImageView() {
 
   return (
     <div className={styles.container}>
-      <img className={styles.image} src={switchOnOff ? uploadedImage : processedImage} alt="Processed image" />
+      <img className={styles.image} src={switchOnOff ? processedImage : uploadedImage} alt="Processed image" />
     </div>
   );
 }
